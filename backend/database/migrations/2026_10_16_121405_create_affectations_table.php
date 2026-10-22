@@ -1,0 +1,38 @@
+
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('affectations', function (Blueprint $table) {
+            $table->id();
+
+            $table->foreignId('stagiaire_id')
+                ->constrained('stagiaires')
+                ->cascadeOnDelete();
+
+            $table->foreignId('encadreur_id')
+                ->constrained('encadreurs')
+                ->restrictOnDelete();
+
+            $table->foreignId('service_id')
+                ->constrained('services')
+                ->restrictOnDelete();
+
+            $table->date('date_affectation');
+            $table->text('observations')->nullable();
+
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('affectations');
+    }
+};
